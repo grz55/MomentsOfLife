@@ -44,7 +44,8 @@ class MomentsOfLifeApplicationTests {
 
 	@Test
 	void calculatingHoursDifference(){
-		assertEquals(24, DifferenceDatesCalculator.getDifferenceHours("2020-05-09","2020-05-10"));		assertEquals(24, DifferenceDatesCalculator.getDifferenceHours("2020-05-09","2020-05-10"));
+		assertEquals(24, DifferenceDatesCalculator.getDifferenceHours("2020-05-09","2020-05-10"));
+		assertEquals(24, DifferenceDatesCalculator.getDifferenceHours("2020-05-09","2020-05-10"));
 		assertEquals(48, DifferenceDatesCalculator.getDifferenceHours("2020-05-09","2020-05-11"));
 		assertTrue(DifferenceDatesCalculator.getDifferenceHours("1994-06-10","1994-06-14")<100);
 		assertTrue(DifferenceDatesCalculator.getDifferenceHours("1994-06-10","1994-06-15")>100);
