@@ -1,0 +1,89 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Moments</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+          integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <link th:href="@{/css/styles.css}" rel="stylesheet" />
+    <title>Moments of Life</title>
+</head>
+<body>
+
+<div class="d-flex justify-content-center">
+    <form>
+        <input class="MyButton" type="button" value="Main page" onclick="window.location.href='/'" />
+        <input class="MyButton" type="button" value="Life stats" onclick="window.location.href='/stats'" />
+        <input class="MyButton" type="button" value="All dates" onclick="window.location.href='/allDates'" />
+        <input class="MyButton" type="button" value="Years" onclick="window.location.href='/years'" />
+        <input class="MyButton" type="button" value="Months" onclick="window.location.href='/months'" />
+        <input class="MyButton" type="button" value="Weeks" onclick="window.location.href='/weeks'" />
+        <input class="MyButton" type="button" value="Days" onclick="window.location.href='/days'" />
+        <input class="MyButton" type="button" value="Hours" onclick="window.location.href='/hours'" />
+        <input class="MyButton" type="button" value="Minutes" onclick="window.location.href='/minutes'" />
+        <input class="MyButton" type="button" value="Seconds" onclick="window.location.href='/seconds'" />
+    </form>
+</div>
+
+<div class="text-center">
+    <h2>Moments of Life Analysis</h2>
+    <h3>Life stats (by today midnight)</h3><br>
+</div>
+
+<table>
+    <tr>
+        <td>
+            Your birthday: <span th:text="${birthdayString}"></span>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Date today: <span th:text="${todayString}"></span>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <span th:if="${yearsPassed &gt; 0}">You are <span th:text="${yearsPassed}"></span> years old.</span>
+            <span th:unless="${yearsPassed &gt; 0}">You are younger than 1 year old.</span>
+        </td>
+    </tr>
+</table>
+
+<br>
+<table>
+    <thead>
+    <th>Time</th>
+    <th>Count</th>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Months:</td>
+        <td th:text="${monthsPassed}"></td>
+    </tr>
+    <tr>
+        <td>Weeks:</td>
+        <td th:text="${weeksPassed}"></td>
+    </tr>
+    <tr>
+        <td>Days:</td>
+        <td th:text="${daysPassed}"></td>
+    </tr>
+    <tr>
+        <td>Hours:</td>
+        <td th:text="${hoursPassed}"></td>
+    </tr>
+    <tr>
+        <td>Minutes:</td>
+        <td th:text="${minutesPassed}"></td>
+    </tr>
+    <tr>
+        <td>Seconds:</td>
+        <td th:text="${secondsPassed}"></td>
+    </tr>
+    </tbody>
+</table>
+<br>
+
+
+</body>
+</html>

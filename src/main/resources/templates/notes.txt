@@ -1,0 +1,33 @@
+
+
+
+<a href="/">[Main page]</a>
+<a href="/stats">[Life stats]</a>
+<a href="/allDates">[All dates]</a>
+<a href="/years">[Years]</a>
+<a href="/months">[Months]</a>
+<a href="/weeks">[Weeks]</a>
+<a href="/days">[Days]</a>
+<a href="/hours">[Hours]</a>
+<a href="/minutes">[Minutes]</a>
+<a href="/seconds">[Seconds]</a><br><br>
+
+<script type="text/javascript" th:src="@{/js/scripts.js}"></script>
+
+<body>
+<button type="button" onclick="showLifeStats()">Life stats</button>
+<button type="button" onclick="showAllDates()">All dates</button>
+<button type="button" onclick="showYears()">Years</button>
+<button type="button" onclick="showMonths()">Months</button>
+<button type="button" onclick="showWeeks()">Weeks</button>
+<button type="button" onclick="showDays()">Days</button>
+<button type="button" onclick="showHours()">Hours</button>
+<button type="button" onclick="showMinutes()">Minutes</button>
+<button type="button" onclick="showSeconds()">Seconds</button>
+
+<p id="content">
+
+    JavaScript can change HTML content.
+
+</p> <br><br>
+

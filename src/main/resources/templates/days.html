@@ -1,0 +1,49 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+          integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <link th:href="@{/css/styles.css}" rel="stylesheet" />
+    <title>Moments of Life - Days</title>
+</head>
+<body>
+<div class="d-flex justify-content-center">
+    <form>
+        <input class="MyButton" type="button" value="Main page" onclick="window.location.href='/'" />
+        <input class="MyButton" type="button" value="Life stats" onclick="window.location.href='/stats'" />
+        <input class="MyButton" type="button" value="All dates" onclick="window.location.href='/allDates'" />
+        <input class="MyButton" type="button" value="Years" onclick="window.location.href='/years'" />
+        <input class="MyButton" type="button" value="Months" onclick="window.location.href='/months'" />
+        <input class="MyButton" type="button" value="Weeks" onclick="window.location.href='/weeks'" />
+        <input class="MyButton" type="button" value="Days" onclick="window.location.href='/days'" />
+        <input class="MyButton" type="button" value="Hours" onclick="window.location.href='/hours'" />
+        <input class="MyButton" type="button" value="Minutes" onclick="window.location.href='/minutes'" />
+        <input class="MyButton" type="button" value="Seconds" onclick="window.location.href='/seconds'" />
+    </form>
+</div>
+
+<div class="text-center">
+    <h2>Moments of Life Analysis</h2>
+    <h3>Days</h3><br>
+</div>
+
+<table>
+    <thead>
+    <th>Date</th>
+    <th>Count</th>
+    <th>Unit</th>
+    </thead>
+    <tbody>
+    <tr th:each="map: ${datesMap}">
+        <td th:text="${map.key}"/>
+        <td th:text="${map.value.count}"/>
+        <td th:text="${map.value.period}"/>
+    </tr>
+    </tbody>
+
+</table>
+
+</body>
+</html>
