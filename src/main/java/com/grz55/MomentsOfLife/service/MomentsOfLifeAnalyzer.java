@@ -47,9 +47,7 @@ public class MomentsOfLifeAnalyzer {
         hoursDatesMap = calculateMomentsPeriod(birthdayString, hours, Periods.HOUR);
         minutesDatesMap = calculateMomentsPeriod(birthdayString, minutes, Periods.MINUTE);
         secondsDatesMap = calculateMomentsPeriod(birthdayString, seconds, Periods.SECOND);
-
         putAllMapsTogether();
-
     }
 
     public Map<LocalDate,Moment> calculateMomentsPeriod(String birthdayString, long passedCount, Periods period){
@@ -60,7 +58,6 @@ public class MomentsOfLifeAnalyzer {
         int step;
         Map<LocalDate,Moment> momentsMap = new TreeMap<>();
         TemporalAmount durationToAdd;
-
 
         switch(period){
             case YEAR:{
@@ -151,14 +148,6 @@ public class MomentsOfLifeAnalyzer {
         System.out.println(hoursDatesMap);
         System.out.println(minutesDatesMap);
         System.out.println(secondsDatesMap);
-    }
-
-    @Override
-    public String toString() {
-        return "MomentsOfLifeAnalyzer{" +
-                "daysDifference=" + days +
-                ", monthsDifference=" + months +
-                '}';
     }
 
     public int getDays() {

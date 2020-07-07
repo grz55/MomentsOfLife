@@ -35,7 +35,6 @@ public class ChosenDate {
     }
 
     public void convertToFields(String chosenDate) throws ParseException {
-
         todayString = getTodayString();
         yearsPassed = DifferenceDatesCalculator.getDifferenceYears(getBirthdayString(), getTodayString());
         monthsPassed = DifferenceDatesCalculator.getDifferenceMonths(getBirthdayString(), getTodayString());
@@ -44,7 +43,6 @@ public class ChosenDate {
         hoursPassed = DifferenceDatesCalculator.getDifferenceHours(getBirthdayString(), getTodayString());
         minutesPassed = DifferenceDatesCalculator.getDifferenceMinutes(getBirthdayString(), getTodayString());
         secondsPassed = DifferenceDatesCalculator.getDifferenceSeconds(getBirthdayString(), getTodayString());
-
     }
 
     public String getTodayString() {
