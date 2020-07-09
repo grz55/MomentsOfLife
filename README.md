@@ -13,4 +13,4 @@ Project doesn't use any database.
 Static html, css files are in Resources folder.
 
 TODO:
-- find a handle moments counting (calculateMapOfMomentsByUnit in LifeStatsService)
+- how to count moments in LifeStatsService class (method not clean, too long)
