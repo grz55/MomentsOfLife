@@ -67,7 +67,7 @@ public class CalculationController implements WebMvcConfigurer {
         model.addAttribute("minutesPassed", lifeStats.getMinutes());
         model.addAttribute("secondsPassed", lifeStats.getSeconds());
         model.addAttribute("todayDate", LocalDate.now());
-        model.addAttribute("birthdayString", chosenDate.getBirthday());
+        model.addAttribute("birthdayString", chosenDate.getBirthdayString());
         return "stats";
     }
 

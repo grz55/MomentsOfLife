@@ -31,4 +31,12 @@ public class ChosenDate {
     public void setBirthdayString(String birthdayString) {
         this.birthdayString = birthdayString;
     }
+
+    @Override
+    public String toString() {
+        return "ChosenDate{" +
+                "birthdayString='" + birthdayString + '\'' +
+                ", birthday=" + birthday +
+                '}';
+    }
 }

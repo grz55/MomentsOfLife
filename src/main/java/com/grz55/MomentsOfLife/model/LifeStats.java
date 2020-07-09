@@ -4,7 +4,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.Map;
-import java.util.TreeMap;
 
 @Component
 public class LifeStats {
@@ -17,13 +16,13 @@ public class LifeStats {
     private int minutes;
     private long seconds;
 
-    private Map<LocalDate, Moment> yearsDatesMap = new TreeMap<>();
-    private Map<LocalDate, Moment> monthsDatesMap = new TreeMap<>();
-    private Map<LocalDate, Moment> daysDatesMap = new TreeMap<>();
-    private Map<LocalDate, Moment> weeksDatesMap = new TreeMap<>();
-    private Map<LocalDate, Moment> hoursDatesMap = new TreeMap<>();
-    private Map<LocalDate, Moment> minutesDatesMap = new TreeMap<>();
-    private Map<LocalDate, Moment> secondsDatesMap = new TreeMap<>();
+    private Map<LocalDate, Moment> yearsDatesMap;
+    private Map<LocalDate, Moment> monthsDatesMap;
+    private Map<LocalDate, Moment> daysDatesMap;
+    private Map<LocalDate, Moment> weeksDatesMap;
+    private Map<LocalDate, Moment> hoursDatesMap;
+    private Map<LocalDate, Moment> minutesDatesMap;
+    private Map<LocalDate, Moment> secondsDatesMap;
 
     public int getYears() {
         return years;
