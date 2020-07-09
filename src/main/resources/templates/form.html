@@ -18,7 +18,7 @@
                 <td><input type="date" id="birthday" name="birthday" th:field="*{birthdayString}"></td>
             </tr>
             <tr>
-                <td th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthdayString}">Input error</td>
+                <td th:if="${#fields.hasErrors('birthdayString')}" th:errors="*{birthdayString}">Input error</td>
             </tr>
         </table><br><br>
         <input class="MyButton" type="submit" value="Calculate"/>

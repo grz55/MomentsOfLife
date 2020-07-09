@@ -9,8 +9,10 @@ import java.time.LocalDateTime;
 @Component
 public class ChosenDate {
 
+    private static final String EMPTY_INPUT_MESSAGE = "Input field can't be empty";
+
     @NotNull
-    @NotEmpty
+    @NotEmpty(message = EMPTY_INPUT_MESSAGE)
     private String birthdayString;
 
     private LocalDateTime birthday;

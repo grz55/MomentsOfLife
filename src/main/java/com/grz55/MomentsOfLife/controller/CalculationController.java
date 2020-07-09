@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -19,7 +20,6 @@ import java.time.LocalTime;
 @Controller
 public class CalculationController implements WebMvcConfigurer {
 
-    private static final String EMPTY_INPUT_MESSAGE = "Input field can't be empty";
     private static final String FUTURE_DATE_MESSAGE = "Future date can't be chosen";
 
     private ChosenDate chosenDate;
@@ -42,9 +42,9 @@ public class CalculationController implements WebMvcConfigurer {
     public String checkDate(@Valid ChosenDate chosenDate, BindingResult bindingResult, Model model) {
 
         if (chosenDate.getBirthdayString().isEmpty()) {
-            bindingResult.addError(new ObjectError("birthday", EMPTY_INPUT_MESSAGE));
+            return "form";
         } else if (LocalDate.parse(chosenDate.getBirthdayString()).isAfter(LocalDate.now())) {
-            bindingResult.addError(new ObjectError("birthday", FUTURE_DATE_MESSAGE));
+            bindingResult.addError(new FieldError("chosenDate", "birthdayString", FUTURE_DATE_MESSAGE));
         }
 
         if (bindingResult.hasErrors()) {
