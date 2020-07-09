@@ -8,8 +8,9 @@ How to use: just pull into your IDE (IntelliJ).
 
 Used: Java, Spring Boot, Thymeleaf, HTML, CSS.
 
-First project - working but needs clean code improvements.
-
 Project doesn't use any database.
 
 Static html, css files are in Resources folder.
+
+TODO:
+- find a handle moments counting (calculateMapOfMomentsByUnit in LifeStatsService)
