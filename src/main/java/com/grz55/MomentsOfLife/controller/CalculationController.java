@@ -52,6 +52,7 @@ public class CalculationController implements WebMvcConfigurer {
         }
 
         chosenDate.setBirthday(LocalDateTime.of(LocalDate.parse(chosenDate.getBirthdayString()), LocalTime.MIDNIGHT));
+        this.chosenDate = chosenDate;
         lifeStatsService.calculateLifeStats(chosenDate);
         return "redirect:/stats";
     }
