@@ -43,10 +43,6 @@ public class LifeStatsService {
         lifeStats.setSecondsDatesMap(calculateMapOfMomentsByUnit(chosenDate.getBirthday(), lifeStats.getSeconds(), ChronoUnit.SECONDS));
     }
 
-    public LifeStats getLifeStats() {
-        return lifeStats;
-    }
-
     private Map<LocalDate, Moment> calculateMapOfMomentsByUnit(LocalDateTime birthday, long passedCount, ChronoUnit unit) {
         LocalDateTime firstMoment;
         long loopFullCountStarter;

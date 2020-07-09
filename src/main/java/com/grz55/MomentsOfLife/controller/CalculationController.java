@@ -58,7 +58,6 @@ public class CalculationController implements WebMvcConfigurer {
 
     @GetMapping("/stats")
     public String showStats(Model model) {
-        lifeStats = lifeStatsService.getLifeStats();
         model.addAttribute("yearsPassed", lifeStats.getYears());
         model.addAttribute("monthsPassed", lifeStats.getMonths());
         model.addAttribute("weeksPassed", lifeStats.getWeeks());
