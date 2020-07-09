@@ -1,13 +1,15 @@
 package com.grz55.MomentsOfLife.model;
 
+import java.time.temporal.ChronoUnit;
+
 public class Moment {
 
     private long count;
-    private Periods period;
+    private ChronoUnit unit;
 
-    public Moment(long count, Periods period) {
+    public Moment(long count, ChronoUnit unit) {
         this.count = count;
-        this.period = period;
+        this.unit = unit;
     }
 
     public long getCount() {
@@ -18,19 +20,19 @@ public class Moment {
         this.count = count;
     }
 
-    public Periods getPeriod() {
-        return period;
+    public ChronoUnit getUnit() {
+        return unit;
     }
 
-    public void setPeriod(Periods period) {
-        this.period = period;
+    public void setUnit(ChronoUnit unit) {
+        this.unit = unit;
     }
 
     @Override
     public String toString() {
         return "Moment{" +
                 "count=" + count +
-                ", period=" + period +
+                ", unit=" + unit +
                 '}';
     }
 }

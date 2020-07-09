@@ -1,9 +1,9 @@
 package com.grz55.MomentsOfLife.controller;
 
 import com.grz55.MomentsOfLife.model.ChosenDate;
-import com.grz55.MomentsOfLife.model.Moment;
-import com.grz55.MomentsOfLife.model.Periods;
-import com.grz55.MomentsOfLife.service.MomentsOfLifeAnalyzer;
+import com.grz55.MomentsOfLife.model.LifeStats;
+import com.grz55.MomentsOfLife.service.LifeStatsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,17 +12,26 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.validation.Valid;
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.time.LocalDate;
-import java.util.Locale;
-import java.util.Map;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Controller
 public class CalculationController implements WebMvcConfigurer {
 
-    ChosenDate chosenDate;
-    MomentsOfLifeAnalyzer analyzer;
+    private static final String EMPTY_INPUT_MESSAGE = "Input field can't be empty";
+    private static final String FUTURE_DATE_MESSAGE = "Future date can't be chosen";
+
+    private ChosenDate chosenDate;
+    private LifeStats lifeStats;
+    private LifeStatsService lifeStatsService;
+
+    @Autowired
+    public CalculationController(ChosenDate chosenDate, LifeStats lifeStats, LifeStatsService lifeStatsService) {
+        this.chosenDate = chosenDate;
+        this.lifeStats = lifeStats;
+        this.lifeStatsService = lifeStatsService;
+    }
 
     @GetMapping("/")
     public String showForm(ChosenDate chosenDate) {
@@ -30,99 +39,83 @@ public class CalculationController implements WebMvcConfigurer {
     }
 
     @PostMapping("/")
-    public String checkDate(Model model, @Valid ChosenDate chosenDate, BindingResult bindingResult) throws ParseException {
+    public String checkDate(@Valid ChosenDate chosenDate, BindingResult bindingResult, Model model) {
 
-        if (chosenDate.getBirthdayString().equals(""))
-            bindingResult.addError(new ObjectError("birthdayString", "Input field can't be null"));
-        else if (LocalDate.parse(chosenDate.getBirthdayString()).toEpochDay() > LocalDate.now().toEpochDay())
-            bindingResult.addError(new ObjectError("birthdayString", "Future date can't be chosen"));
+        if (chosenDate.getBirthdayString().isEmpty()) {
+            bindingResult.addError(new ObjectError("birthday", EMPTY_INPUT_MESSAGE));
+        } else if (LocalDate.parse(chosenDate.getBirthdayString()).isAfter(LocalDate.now())) {
+            bindingResult.addError(new ObjectError("birthday", FUTURE_DATE_MESSAGE));
+        }
 
-        if (bindingResult.hasErrors())
+        if (bindingResult.hasErrors()) {
             return "form";
+        }
 
-        chosenDate.convertToFields(chosenDate.getBirthdayString());
-        this.chosenDate = chosenDate;
-        analyzer = new MomentsOfLifeAnalyzer(chosenDate);
-
-        model.addAttribute("yearsPassed", chosenDate.getYearsPassed());
-        model.addAttribute("monthsPassed", chosenDate.getMonthsPassed());
-        model.addAttribute("weeksPassed", chosenDate.getWeeksPassed());
-        model.addAttribute("daysPassed", chosenDate.getDaysPassed());
-        model.addAttribute("hoursPassed", NumberFormat.getNumberInstance(Locale.US).format(chosenDate.getHoursPassed()));
-        model.addAttribute("minutesPassed", NumberFormat.getNumberInstance(Locale.US).format(chosenDate.getMinutesPassed()));
-        model.addAttribute("secondsPassed", NumberFormat.getNumberInstance(Locale.US).format(chosenDate.getSecondsPassed()));
-        model.addAttribute("todayString", chosenDate.getTodayString());
-        model.addAttribute("birthdayString", chosenDate.getBirthdayString());
-        model.addAttribute("allDates", analyzer.getAllDatesMap());
-        return "results";
+        chosenDate.setBirthday(LocalDateTime.of(LocalDate.parse(chosenDate.getBirthdayString()), LocalTime.MIDNIGHT));
+        lifeStatsService.calculateLifeStats(chosenDate);
+        return "redirect:/stats";
     }
 
     @GetMapping("/stats")
-    public String showStats(Model model) throws ParseException {
-        model.addAttribute("yearsPassed", chosenDate.getYearsPassed());
-        model.addAttribute("monthsPassed", chosenDate.getMonthsPassed());
-        model.addAttribute("weeksPassed", chosenDate.getWeeksPassed());
-        model.addAttribute("daysPassed", chosenDate.getDaysPassed());
-        model.addAttribute("hoursPassed", NumberFormat.getNumberInstance(Locale.US).format(chosenDate.getHoursPassed()));
-        model.addAttribute("minutesPassed", NumberFormat.getNumberInstance(Locale.US).format(chosenDate.getMinutesPassed()));
-        model.addAttribute("secondsPassed", NumberFormat.getNumberInstance(Locale.US).format(chosenDate.getSecondsPassed()));
-        model.addAttribute("todayString", chosenDate.getTodayString());
-        model.addAttribute("birthdayString", chosenDate.getBirthdayString());
+    public String showStats(Model model) {
+        lifeStats = lifeStatsService.getLifeStats();
+        model.addAttribute("yearsPassed", lifeStats.getYears());
+        model.addAttribute("monthsPassed", lifeStats.getMonths());
+        model.addAttribute("weeksPassed", lifeStats.getWeeks());
+        model.addAttribute("daysPassed", lifeStats.getDays());
+        model.addAttribute("hoursPassed", lifeStats.getHours());
+        model.addAttribute("minutesPassed", lifeStats.getMinutes());
+        model.addAttribute("secondsPassed", lifeStats.getSeconds());
+        model.addAttribute("todayDate", LocalDate.now());
+        model.addAttribute("birthdayString", chosenDate.getBirthday());
         return "stats";
     }
 
-    @GetMapping("/allDates")
+    @GetMapping("/all-dates")
     public String showAllDates(Model model) {
-        model.addAttribute("datesMap", analyzer.getAllDatesMap());
-        return "allDates";
+        model.addAttribute("datesMap", lifeStatsService.getAllDatesMap());
+        return "all-dates";
     }
 
     @GetMapping("/years")
     public String showOnlyYears(Model model) {
-        Map<LocalDate, Moment> yearsMap = analyzer.calculateMomentsPeriod(chosenDate.getBirthdayString(), chosenDate.getYearsPassed(), Periods.YEAR);
-        model.addAttribute("datesMap", yearsMap);
+        model.addAttribute("datesMap", lifeStats.getYearsDatesMap());
         return "years";
     }
 
     @GetMapping("/months")
     public String showOnlyMonths(Model model) {
-        Map<LocalDate, Moment> monthsMap = analyzer.calculateMomentsPeriod(chosenDate.getBirthdayString(), chosenDate.getMonthsPassed(), Periods.MONTH);
-        model.addAttribute("datesMap", monthsMap);
+        model.addAttribute("datesMap", lifeStats.getMonthsDatesMap());
         return "months";
     }
 
     @GetMapping("/weeks")
     public String showOnlyWeeks(Model model) {
-        Map<LocalDate, Moment> weeksMap = analyzer.calculateMomentsPeriod(chosenDate.getBirthdayString(), chosenDate.getWeeksPassed(), Periods.WEEK);
-        model.addAttribute("datesMap", weeksMap);
+        model.addAttribute("datesMap", lifeStats.getWeeksDatesMap());
         return "weeks";
     }
 
     @GetMapping("/days")
     public String showOnlyDays(Model model) {
-        Map<LocalDate, Moment> daysMap = analyzer.calculateMomentsPeriod(chosenDate.getBirthdayString(), chosenDate.getDaysPassed(), Periods.DAY);
-        model.addAttribute("datesMap", daysMap);
+        model.addAttribute("datesMap", lifeStats.getDaysDatesMap());
         return "days";
     }
 
     @GetMapping("/hours")
     public String showOnlyHours(Model model) {
-        Map<LocalDate, Moment> hoursMap = analyzer.calculateMomentsPeriod(chosenDate.getBirthdayString(), chosenDate.getHoursPassed(), Periods.HOUR);
-        model.addAttribute("datesMap", hoursMap);
+        model.addAttribute("datesMap", lifeStats.getHoursDatesMap());
         return "hours";
     }
 
     @GetMapping("/minutes")
     public String showOnlyMinutes(Model model) {
-        Map<LocalDate, Moment> minutesMap = analyzer.calculateMomentsPeriod(chosenDate.getBirthdayString(), chosenDate.getMinutesPassed(), Periods.MINUTE);
-        model.addAttribute("datesMap", minutesMap);
+        model.addAttribute("datesMap", lifeStats.getMinutesDatesMap());
         return "minutes";
     }
 
     @GetMapping("/seconds")
     public String showOnlySeconds(Model model) {
-        Map<LocalDate, Moment> secondsMap = analyzer.calculateMomentsPeriod(chosenDate.getBirthdayString(), chosenDate.getSecondsPassed(), Periods.SECOND);
-        model.addAttribute("datesMap", secondsMap);
+        model.addAttribute("datesMap", lifeStats.getSecondsDatesMap());
         return "seconds";
     }
 }
