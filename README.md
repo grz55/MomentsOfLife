@@ -1,6 +1,9 @@
 # MomentsOfLife
 Calculate your moments of life
 
+https://grz55-moments-of-life.herokuapp.com/
+App deployed on Heroku server. If not used for a long time, needs some time to build back on Heroku server.
+
 Application is calculating round months, weeks, days etc. of your life. Now you don't have to celebrate your birthdays only.
 With Moments of Life application, you know when to celebrate round numbers of months, weeks, days etc of your life.
 
